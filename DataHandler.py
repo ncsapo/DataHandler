@@ -45,17 +45,14 @@ def split_data(data, delimiter):
 
 #switches rows with columns
 def transpose_data(data):
-    new_2d_list = []
-    for col in range(len(data)):
-        temp_list = []
-        for value in data[col]:
-            temp_list.append(value)
-        new_2d_list.append(temp_list)
-    return new_2d_list
-
-d = load_csv(test_csv)
-e = slice_data(d, 13)
-f = transpose_data(e)
-print(f)
+    col_count = len(data)
+    row_count = len(data[0])
+    transposed_data = []
+    for row in range(row_count):
+        temp = []
+        for col in range(col_count):
+            temp.append(data[col][row])
+        transposed_data.append(temp)
+    return transposed_data
 
 print("DataHandler.py Loaded")
