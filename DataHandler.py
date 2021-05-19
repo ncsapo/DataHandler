@@ -1,5 +1,5 @@
-import csv
 from openpyxl import load_workbook
+import requests
 
 test_csv = "/Users/nickcsapo/Downloads/SalesJan2009.csv"
 test_xlsx = "/Users/nickcsapo/Downloads/Financial Sample.xlsx"
@@ -11,6 +11,11 @@ def get_cell(data, col_num, row_num):
 #returns values in a defined column
 def get_col(data, col_num, col_max):
     return data[col_num-1::col_max]
+
+#returns the html of a webpage
+def get_webpage(address):
+    html = requests.get(address).text
+    return html
 
 #returns list of each value in csv file
 def load_csv(file, delimiter = ',', exclusion_list = []):
@@ -55,4 +60,5 @@ def transpose_data(data):
         transposed_data.append(temp)
     return transposed_data
 
+print(get_webpage("https://www.google.com"))
 print("DataHandler.py Loaded")
