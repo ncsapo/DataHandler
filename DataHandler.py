@@ -50,12 +50,10 @@ def split_data(data, delimiter):
 
 #switches rows with columns
 def transpose_data(data):
-    col_count = len(data)
-    row_count = len(data[0])
     transposed_data = []
-    for row in range(row_count):
+    for row in range(len(data[0])):
         temp = []
-        for col in range(col_count):
+        for col in range(len(data)):
             temp.append(data[col][row])
         transposed_data.append(temp)
     return transposed_data
