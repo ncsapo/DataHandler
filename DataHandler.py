@@ -1,8 +1,30 @@
-from openpyxl import load_workbook
+import csv
+from openpyxl import load_workbook, Workbook
 from requests import get
 
 test_csv = "/Users/nickcsapo/Downloads/SalesJan2009.csv"
 test_xlsx = "/Users/nickcsapo/Downloads/Financial Sample.xlsx"
+
+#Creates a .csv file from data
+def create_csv(data, location_and_name):
+    concatenated_data = []
+    for row_num in range(len(data)):
+        for col_num in range(len(data[row_num])):
+            concatenated_data.append(data[row_num][col_num])
+    with open(location_and_name, 'w') as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        writer.writerow(concatenated_data)
+
+#Creates an excel sheet from data
+def create_xlsx(data, location_and_name):
+    wb = Workbook()
+    ws = wb.active
+    for row_num in range(len(data)):
+        for col_num in range(len(data[row_num])):
+            cell = ws.cell(row=row_num+1, column=col_num+1)
+            cell.value = data[row_num][col_num]
+    wb.save(location_and_name)
+    return True
 
 #returns value in a defined cell
 def get_cell(data, col_num, row_num):
@@ -57,5 +79,45 @@ def transpose_data(data):
             temp.append(data[col][row])
         transposed_data.append(temp)
     return transposed_data
+
+d = load_csv(test_csv)
+d = slice_data(d, 13)
+dates = d[0]
+costs = d[2]
+print(dates)
+print(costs)
+
+import matplotlib.pyplot as plt
+
+plt.plot(dates, costs)
+
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+def f(x):
+    return x**2
+x = np.linspace (start = 0, stop = 3, num = 51)
+y = f(x)    # This is already vectorized, that is, y will be a vector!
+
+def g(x):
+    return x*np.exp(-x)
+xx = np.arange  (start = 0, stop = 6, step = 0.05) # generate points between start and stop with distances of step apart from each other
+yy = g(xx)
+
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.legend( [ 'f(x) = x^2*exp(-x^2)'   # This is f(x)
+            , 'g(x) = x*exp(-x)'       # This is g(x)
+            ] )
+plt.title('multiple Matplotlib curves in a single decorated figure');
+
+plt.plot(xx, yy, 'r-')
+plt.axis([0, 6, -0.05, 0.6]) # [xmin, xmax, ymin, ymax]
+plt.plot(x, y)
+
+plt.show()
+
+#plt.savefig('multipleCurvesFullRangeDecorated.png') # produces a PNG file containing the figure
+'''
 
 print("DataHandler.py Loaded")
